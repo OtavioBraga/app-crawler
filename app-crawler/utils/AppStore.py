@@ -11,6 +11,9 @@ class AppStore(object):
         - top paid apps
         - top free apps
         - search a app
+
+        Due the App Store limitation, we can get
+        only the 100's first apps on chart.
     """
 
     def __init__(self, **kwargs):
@@ -21,14 +24,17 @@ class AppStore(object):
         }
         self.country = kwargs.get("country", "")
 
+    # List top 100 paid apps
     def top_paid(self):
         chart_type = self.chart_types.get("paid")
         return self.parse_apps_list(chart_type)
 
+    # List top 100 free apps
     def top_free(self):
         chart_type = self.chart_types.get("free")
         return self.parse_apps_list(chart_type)
 
+    # Show app information if they are on free or paid top chart
     def app_info(self, name):
         name = name.lower()
 
@@ -40,6 +46,8 @@ class AppStore(object):
         for app in self.top_paid():
             if app["name"].lower().startswith(name):
                 return self.parse_app(app)
+
+        return {"warning": "not_on_charts"}
 
     # Get the html and parse it to separe the apps in a list
     def parse_apps_list(self, chart_type):
@@ -66,16 +74,21 @@ class AppStore(object):
 
         return apps
 
+    # Parse the app page html to extract app info
     def parse_app(self, app):
-        soup = BeautifulSoup(self.app_html(app["url"]), "html.parser")
-        app["description"] = soup.find("p", {"itemprop":"description"}).text
-        for image in soup.find_all("img", {"itemprop":"screenshot"}):
+        soup = BeautifulSoup(self.app_info_html(app["url"]), "html.parser")
+
+        app["description"] = soup.find("p", {"itemprop": "description"}).text
+
+        for image in soup.find_all("img", {"itemprop": "screenshot"}):
             app["screenshots"].append(image.get("src"))
+
         return app
 
     # Choose a chart type and get the HTML to parse
     def apps_list_html(self, chart_type):
         return requests.get(self.base_url.format(chart_type)).text
 
-    def app_html(self, app_link):
+    # Get the app info page html
+    def app_info_html(self, app_link):
         return requests.get(app_link).text
