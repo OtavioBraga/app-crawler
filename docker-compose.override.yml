@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  converter:
+    user: root
+    tty: true
+    stdin_open: true
+    ports:
+      - "5000:5000"
+    command: ['python', '/app-crawler/app.py']
+
