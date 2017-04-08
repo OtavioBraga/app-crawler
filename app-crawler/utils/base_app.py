@@ -6,4 +6,6 @@ APP = {
     "screenshots": [],
     "icon": None,
     "description": None,
+    "global_ranking": {},
+    "id": None
 }
