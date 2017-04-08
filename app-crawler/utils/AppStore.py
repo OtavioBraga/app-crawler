@@ -41,6 +41,8 @@ class AppStore(object):
 
             ranking = re.sub("[^0-9]", "", app_html.strong.text)
             app["ranking_position"] = int(ranking)
+
+            app["url"] = "asd"
             self.apps.append(app)
         return self.apps
 
