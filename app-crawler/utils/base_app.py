@@ -4,4 +4,6 @@ APP = {
     "url": None,
     "category": None,
     "screenshots": [],
+    "icon": None,
+    "description": None,
 }
