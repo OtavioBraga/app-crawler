@@ -7,5 +7,6 @@ APP = {
     "icon": None,
     "description": None,
     "global_ranking": {},
-    "id": None
+    "id": None,
+    "country": None,
 }

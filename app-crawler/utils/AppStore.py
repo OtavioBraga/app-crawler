@@ -1,6 +1,6 @@
-from appstore_countries import AVAILABLE_COUNTRIES
+from .appstore_countries import AVAILABLE_COUNTRIES
 from bs4 import BeautifulSoup
-from base_app import APP
+from .base_app import APP
 import requests
 import copy
 import re
@@ -82,18 +82,15 @@ class AppStore(object):
                         app["global_ranking"].update({country: item["ranking_position"]})
             return app
         else:
-            return {"warning": "not_on_charts"}
+            return None
 
     # Get the html and parse it to separe the apps in a list
     def parse_apps_list(self, chart_type):
         soup = BeautifulSoup(self.apps_list_html(chart_type), "html.parser")
 
-        try:
-            apps_html_list = soup.find("section",
-                                       {"class": "section apps chart-grid"}
-                                       ).find_all("li")
-        except:
-            import ipdb; ipdb.set_trace()
+        apps_html_list = soup.find("section",
+                                   {"class": "section apps chart-grid"}
+                                   ).find_all("li")
         apps = []
         for app_html in apps_html_list:
             app = copy.deepcopy(APP)
@@ -122,6 +119,8 @@ class AppStore(object):
 
         for image in soup.find_all("img", {"itemprop": "screenshot"}):
             app["screenshots"].append(image.get("src"))
+
+        app["country"] = self.country.replace("/","")
 
         return app
 

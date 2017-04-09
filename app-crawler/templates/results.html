@@ -1,24 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ name }}</title>
-  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-</head>
-
-<body>
-  <div class="container">
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
     
     <div class="row"> 
-      <nav>
+      <nav class="animated fadeInUp">
         <div class="nav-wrapper green darken-1">
-          <form>
+          <form method="post" action="{{ url_for('home') }}">
             <div class="input-field">
-              <input id="search" type="search" required>
+              <input id="search" type="search" name="search" required>
               <label class="label-icon" for="search"><i class="material-icons">search</i></label>
               <i class="material-icons">close</i>
             </div>
@@ -28,25 +17,66 @@
     </div>
 
     <div class="row">
-      <div class="col s12 l4">
-        <img class="responsive-img" src="{{ url_for('static', filename='app-icon.png') }}" alt="">
-      </div>
-      <div class="col s12 l8">
-        <div class="card green darken-1">
-          <div class="card-content white-text">
-            <span class="card-title">Card Title</span>
-            <p>I am a very simple card. I am good at containing small bits of information.
-            I am convenient because I require little markup to use effectively.</p>
+      <div class="col s12 l3 clean-padding">
+        <div class="col s12 l12 center-align">
+          <img class="icon z-depth-3 hoverable animated fadeInUp" src="{{ app.icon }}" alt="">
+        </div>
+        <div class="col s12 l12 clean-margin">
+          <div class="card green darken-1 hoverable animated fadeInUp">
+            <div class="card-content white-text valign">
+              <span class="card-title">{{ app.name }}</span>
+                <p> {{ app.category }} </p>
+                <br>
+                <p><i class="material-icons vertical-align-middle padding-bottom-3">assessment</i>  {{ app.ranking_position }}º position on {{ app.country }} </p>
+            </div>
+            <div class="card-action">
+              <a href=" {{ app.url }}">Download on App Store</a>
+              <!-- <a href="#">Download on Play Store</a> -->
+            </div>
           </div>
-          <div class="card-action">
-            <a href="#">Download on App Store</a>
-            <a href="#">Download on Play Store</a>
+        </div>
+      </div>
+      <div class="col s12 l6">
+        <div class="card green darken-2 z-depth-3 animated fadeInUp">
+          <div class="card-content white-text">
+            <span class="card-title"> Description </span>
+            <p>{{ app.description }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 l3">
+        <div class="card green darken-2 z-depth-5 animated fadeInUp">
+          <div class="card-content white-text">
+            <span class="card-title"> Ranking around the world </span>
+              <ul>
+                {% for key, value in app.global_ranking.items()  %}
+                  <li> {{ value }}º in {{ key }} </li>
+                {% endfor %}
+              </ul>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
- <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
-</html>
+
+    <div class="row">
+      <h2 class="center-align animated fadeInUp">Screenshots</h2>
+      <div class="col s12">
+        <div class="masonry">
+          {% for screenshot in app.screenshots  %}
+            <div class="item animated fadeInUp">
+              <img class="responsive-img z-depth-2 hoverable materialboxed " src="{{ screenshot }}" alt="">
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+</div>
+<script>
+   $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+        
+</script>
+{# {% include "chart.html" %} #}
+{% endblock %}
