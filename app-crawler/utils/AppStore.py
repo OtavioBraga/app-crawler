@@ -47,16 +47,19 @@ class AppStore(object):
     def app_info(self, name):
         name = name.lower()
 
-        # TODO: optmize this. maybe with zip(top_free, top_paid)
-        for app in self.top_free():
-            if app["name"].lower().startswith(name):
-                return self.parse_app_info(app)
-
-        for app in self.top_paid():
-            if app["name"].lower().startswith(name):
-                return self.parse_app_info(app)
+        for free_app, paid_app in zip(self.top_free(), self.top_paid()):
+            if free_app["name"].lower().startswith(name):
+                return self.parse_app_info(free_app)
+            if paid_app["name"].lower().startswith(name):
+                return self.parse_app_info(paid_app)
 
         return None
+
+    def name_from_url(self, url):
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser")
+        name = soup.find("h1", {"itemprop": "name"}).text
+        return name
 
     def app_global_ranking(self, name):
         name = name.lower()
@@ -74,13 +77,11 @@ class AppStore(object):
                     continue
 
                 self.change_country(country)
-                for item in self.top_free():
-                    if item["id"] == app["id"]:
-                        app["global_ranking"].update({country: item["ranking_position"]})
-
-                for item in self.top_paid():
-                    if item["id"] == app["id"]:
-                        app["global_ranking"].update({country: item["ranking_position"]})
+                for free, paid in zip(self.top_free(), self.top_paid()):
+                    if free["id"] == app["id"]:
+                        app["global_ranking"].update({country: free["ranking_position"]})
+                    if paid["id"] == app["id"]:
+                        app["global_ranking"].update({country: paid["ranking_position"]})
             return app
         else:
             return None
@@ -103,7 +104,7 @@ class AppStore(object):
 
             app["url"] = app_html.a.get("href")
 
-            app["id"] = re.search("(id[0-9A-Za-z]*)", app["url"]).group()
+            app["id"] = self._app_id(app["url"])
 
             app_icon = "http://www.apple.com/{}".format(app_html.img.get("src"))
             app["icon"] = app_icon
@@ -111,6 +112,9 @@ class AppStore(object):
             apps.append(app)
 
         return apps
+
+    def _app_id(self, url):
+        return re.search("(id[0-9A-Za-z]*)", url).group()
 
     # Parse the app page html to extract app info
     def parse_app_info(self, app):

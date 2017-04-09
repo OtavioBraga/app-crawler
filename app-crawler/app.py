@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, session
 from utils.AppStore import AppStore
+import re
 
 app = Flask(__name__)
 
@@ -9,8 +10,12 @@ def home():
     if not session.get("last_search"):
         session["last_search"] = None
     if request.method == 'POST':
-        app_name = request.values.get("search")
+        search_string = request.values.get("search")
         appstore = AppStore()
+        if re.search("(id[0-9A-Za-z]*)", search_string):
+            app_name = appstore.name_from_url(search_string)
+        else:
+            app_name = search_string
         data = appstore.app_global_ranking(app_name)
         if data:
             session["last_search"] = data

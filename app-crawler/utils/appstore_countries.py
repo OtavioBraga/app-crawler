@@ -1,7 +1,8 @@
 AVAILABLE_COUNTRIES = [
+    '/',
     '/in/',
     '/sa/',
-    '/ae/',
+    # '/ae/',
     # '/ae-ar/',
     # '/au/',
     # '/cn/',
@@ -28,7 +29,7 @@ AVAILABLE_COUNTRIES = [
     # '/no/',
     # '/at/',
     # '/pl/',
-    # '/pt/',
+    '/pt/',
     # '/ru/',
     # # '/chde/',
     # '/chfr/',
@@ -38,8 +39,7 @@ AVAILABLE_COUNTRIES = [
     '/uk/',
     '/br/',
     '/mx/',
-    # '/ca/',
+    '/ca/',
     # '/ca/fr/',
-    '/',
 ]
 # The "/" is for US
