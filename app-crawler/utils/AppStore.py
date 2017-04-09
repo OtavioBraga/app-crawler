@@ -66,6 +66,7 @@ class AppStore(object):
             if app:
                 first_country_found = country
                 break
+            self.change_country(country)
 
         if app:
             for country in AVAILABLE_COUNTRIES:

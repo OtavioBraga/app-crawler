@@ -8,6 +8,4 @@ services:
     user: root
     expose:
       - "5000"
-    environment:
-      - VIRTUAL_HOST=127.0.0.1.nip.io
     command: ['gunicorn', '-c', 'config.py', 'app:app']

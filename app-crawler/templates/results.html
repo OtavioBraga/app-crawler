@@ -15,49 +15,7 @@
         </div>
       </nav>
     </div>
-
-    <div class="row">
-      <div class="col s12 l3 clean-padding">
-        <div class="col s12 l12 center-align">
-          <img class="icon z-depth-3 hoverable animated fadeInUp" src="{{ app.icon }}" alt="">
-        </div>
-        <div class="col s12 l12 clean-margin">
-          <div class="card green darken-1 hoverable animated fadeInUp">
-            <div class="card-content white-text valign">
-              <span class="card-title">{{ app.name }}</span>
-                <p> {{ app.category }} </p>
-                <br>
-                <p><i class="material-icons vertical-align-middle padding-bottom-3">assessment</i>  {{ app.ranking_position }}º position on {{ app.country }} </p>
-            </div>
-            <div class="card-action">
-              <a href=" {{ app.url }}">Download on App Store</a>
-              <!-- <a href="#">Download on Play Store</a> -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 l6">
-        <div class="card green darken-2 z-depth-3 animated fadeInUp">
-          <div class="card-content white-text">
-            <span class="card-title"> Description </span>
-            <p>{{ app.description }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 l3">
-        <div class="card green darken-2 z-depth-5 animated fadeInUp">
-          <div class="card-content white-text">
-            <span class="card-title"> Ranking around the world </span>
-              <ul>
-                {% for key, value in app.global_ranking.items()  %}
-                  <li> {{ value }}º in {{ key }} </li>
-                {% endfor %}
-              </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    {% include 'app_description.html' %}
     <div class="row">
       <h2 class="center-align animated fadeInUp">Screenshots</h2>
       <div class="col s12">
@@ -78,5 +36,4 @@
   });
         
 </script>
-{# {% include "chart.html" %} #}
 {% endblock %}

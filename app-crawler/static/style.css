@@ -3,13 +3,13 @@
 }
 
 .icon {
-    width              : 100px;
-    height             : 100px;
-    margin             : 20px;
-    border-radius      : 18px;
-    -webkit-box-sizing : border-box;
-    -moz-box-sizing    : border-box;
-    box-sizing         : border-box;
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    border-radius: 18px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .vertical-align-middle { 
@@ -38,4 +38,8 @@
     display: inline-block;
     margin: 0 0 1em;
     width: 100%;
+}
+
+.search h1, h2{
+    font-size: 18pt;
 }

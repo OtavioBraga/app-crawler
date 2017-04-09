@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-    <div class="row"> 
+    <div class="row search"> 
+      <h1 class="center-align animated fadeInUp">VanHack App Crawler for App Store</h1>
+      <h2 class="center-align animated fadeInUp">AppSamurai</h2>
       <nav class="animated fadeInUp">
         <div class="nav-wrapper green darken-1 ">
           <form method="post" action="{{ url_for('home') }}">
@@ -14,4 +16,24 @@
         </div>
       </nav>
     </div>
+
+    <div class="row">
+      {% if app %}
+        <h2 class="center-align animated fadeInUp">Last Search</h2>
+        {% include 'app_description.html' %}
+      {% else %}
+        <div class="row">
+          <div class="col s4 offset-s4 animated fadeInUp">
+            <div class="card green darken-2 z-depth-3">
+              <div class="card-content white-text">
+                <span class="card-title sashay away"> No last search </span>
+                <p>You have not searched for anything yet! Try to do a new search in the search box above. :)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+</div>
 {% endblock %}
